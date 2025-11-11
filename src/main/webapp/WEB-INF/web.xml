@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
-   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
-   version="6.0">
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                             http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+
     <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
+        <session-timeout>30</session-timeout>
     </session-config>
+
     <servlet>
         <servlet-name>CadastroMedicacaoInternacaoControlador</servlet-name>
-        <servlet-class>com.mycompany.hospital_andressa_guilherme.controlador.CadastroMedicacaoInternacaoControlador</servlet-class>
+        <servlet-class>com.mycompany.hospital.controlador.CadastroMedicacaoInternacaoControlador</servlet-class>
     </servlet>
+
     <servlet-mapping>
         <servlet-name>CadastroMedicacaoInternacaoControlador</servlet-name>
         <url-pattern>/CadastroMedicacaoInternacao</url-pattern>
     </servlet-mapping>
-    
+
+    <!-- Página inicial (adicione o nome correto do seu JSP inicial) -->
+    <welcome-file-list>
+        <welcome-file>homepage.jsp</welcome-file>
+    </welcome-file-list>
 
 </web-app>
