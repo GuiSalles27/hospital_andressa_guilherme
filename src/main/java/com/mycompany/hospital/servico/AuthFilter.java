@@ -1,33 +1,22 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.hospital.servico;
-
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
-
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
-//import javax.servlet.annotation.WebServlet;
-//import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-//import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- *
- * @author tulio
+ * Filtro de autenticação global.
+ * Intercepta todas as requisições e verifica se o usuário está logado.
+ * Páginas públicas (como login e homepage) não exigem login.
  */
-
 @WebFilter(urlPatterns = {"/*"})
-/*Um filtro em Java EE é uma classe Java que pode ser usada para interceptar solicitações a um aplicativo antes que elas cheguem a 
-um servlet ou JSP. Isso é útil para verificar se um usuário está logado antes de permitir acesso a páginas restritas.*/
 public class AuthFilter implements Filter {
 
     public AuthFilter() {
@@ -35,57 +24,62 @@ public class AuthFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        // Configuração de inicialização do filtro, se necessário.
+        // Inicialização do filtro, se necessário
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
+
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-        // Obter o caminho da requisição
+
+        // Obtém o caminho relativo à aplicação
         String path = httpRequest.getRequestURI().substring(httpRequest.getContextPath().length());
 
-        // String path = httpRequest.getServletPath();
-        //System.out.println("PATH:" + path);
-        // Verifica se "user" está na sessão
-        // System.out.println("USER: "+httpRequest.getSession().getAttribute("user"));
-        if (path.startsWith("/public/") || path.equalsIgnoreCase("/login.jsp")
-                || path.equalsIgnoreCase("/com/mycompany/hospital/controlador/LoginControlador")
-                || path.equals("/homepage.jsp")
-                || path.equalsIgnoreCase("/index.jsp") 
-                || path.equalsIgnoreCase("/menu.jsp")
-                || path.equalsIgnoreCase("/CadastroUsuario.jsp")
-                || path.contains("/estilo/") 
-                || path.equalsIgnoreCase("/CadastroAmbulatorio/") 
-                || path.equalsIgnoreCase("/CadastroCargo/") 
-                || path.equalsIgnoreCase("/CadastroConsulta/") 
-                || path.equalsIgnoreCase("/CadastroExame/") 
-                || path.equalsIgnoreCase("/CadastroFuncionario/")
-                || path.equalsIgnoreCase("/CadastroHospital/") 
-                || path.equalsIgnoreCase("/CadastroInternacao/") 
-                || path.equalsIgnoreCase("/CadastroMedicacao/")
-                || path.equalsIgnoreCase("/CadastroMedicacaoInternacao/")
-                || path.equalsIgnoreCase("/CadastroPaciente/") 
-                || path.equalsIgnoreCase("/CadastroPlano/") 
-                || path.equalsIgnoreCase("/CadastroHospital/") 
-                || path.equalsIgnoreCase("/esqueci-senha") 
-                || path.equalsIgnoreCase("/esqueci-senha.jsp")
-                || path.equalsIgnoreCase("/reset-senha") 
-                || path.equalsIgnoreCase("/reset-senha.jsp")) {
-            chain.doFilter(request, response); // Continuar sem bloquear essas requisições
-        } else {
-            if (httpRequest.getSession().getAttribute("user") == null) {
-                httpResponse.sendRedirect("/hospital/login.jsp"); // Redirecionar para a página de login
+        // ----------------------------
+        // 1. Lista de URLs públicas
+        // ----------------------------
+        // Essas páginas podem ser acessadas sem login
+        boolean isPublicPath = path.startsWith("/public/") ||
+                path.equalsIgnoreCase("/login.jsp") ||          // Página de login
+                path.equalsIgnoreCase("/homepage.jsp") ||       // NOVA ALTERAÇÃO: homepage é pública
+                path.equalsIgnoreCase("/esqueci-senha.jsp") ||  // Recuperação de senha
+                path.equalsIgnoreCase("/reset-senha.jsp") ||
+                path.equalsIgnoreCase("/CadastroUsuario.jsp");  // Cadastro de usuário
 
+        // ----------------------------
+        // 2. Permite acesso ao LoginControlador sem login
+        // ----------------------------
+        // NOVA ALTERAÇÃO: evita bloqueio das requisições de login
+        isPublicPath = isPublicPath || path.equalsIgnoreCase("/LoginControlador");
+
+        // ----------------------------
+        // 3. Permite acesso a arquivos estáticos (CSS, JS, imagens)
+        // ----------------------------
+        // NOVA ALTERAÇÃO: evita redirecionamento do filtro para arquivos de estilo
+        isPublicPath = isPublicPath || path.contains("/estilo/");
+
+        // ----------------------------
+        // 4. Decisão do filtro
+        // ----------------------------
+        if (isPublicPath) {
+            // Página pública, continua normalmente
+            chain.doFilter(request, response);
+        } else {
+            // Página protegida, verifica se usuário está logado
+            if (httpRequest.getSession().getAttribute("user") == null) {
+                // NOVA ALTERAÇÃO: redireciona dinamicamente usando getContextPath()
+                httpResponse.sendRedirect(httpRequest.getContextPath() + "/login.jsp");
             } else {
-                chain.doFilter(request, response); // Usuário está logado, continue com a solicitação.
+                // Usuário logado, continua a requisição
+                chain.doFilter(request, response);
             }
         }
     }
 
     @Override
     public void destroy() {
-        // Recursos de limpeza do filtro, se necessário.
+        // Limpeza de recursos, se necessário
     }
 }
