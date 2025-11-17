@@ -73,7 +73,7 @@ public class LoginControlador extends HttpServlet {
     protected void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (usuario != null && BCrypt.checkpw(password, usuario.getSenhaHash())) {
             request.getSession().setAttribute("user", username);
-            response.sendRedirect("/hospital/homepage.jsp");
+            response.sendRedirect("/homepage.jsp");
         } else {
             request.setAttribute("mensagem", "Usuário ou senha inválidos");
             request.getRequestDispatcher("/login.jsp").forward(request, response);

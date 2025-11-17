@@ -29,7 +29,7 @@
                         <input type="password" name="password" class="form-control" placeholder="Digite sua senha" required>
                     </div>
 
-                    <input type="hidden" name="opcao" value="login" />
+                    <input type="hidden" name="opcao" value="login">
 
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-primary">Entrar</button>
