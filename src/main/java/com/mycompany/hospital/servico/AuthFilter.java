@@ -47,6 +47,7 @@ public class AuthFilter implements Filter {
                 path.equalsIgnoreCase("/esqueci-senha.jsp") ||  // Recuperação de senha
                 path.equalsIgnoreCase("/reset-senha.jsp") ||
                 path.equalsIgnoreCase("/CadastroUsuario.jsp");  // Cadastro de usuário
+                
 
         // ----------------------------
         // 2. Permite acesso ao LoginControlador sem login
@@ -58,7 +59,7 @@ public class AuthFilter implements Filter {
         // 3. Permite acesso a arquivos estáticos (CSS, JS, imagens)
         // ----------------------------
         // NOVA ALTERAÇÃO: evita redirecionamento do filtro para arquivos de estilo
-        isPublicPath = isPublicPath || path.contains("/estilo/");
+        isPublicPath = isPublicPath || path.contains("/estilo/") || path.contains("/img/");
 
         // ----------------------------
         // 4. Decisão do filtro
