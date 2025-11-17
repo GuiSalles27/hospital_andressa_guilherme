@@ -16,17 +16,17 @@ import java.util.List;
 public class HospitalDAO extends GenericoDAO<Hospital>{
     
     public void salvar(Hospital objHospital){
-        String sql = "INSERT INTO HOSPITAL(cnpjHospital,endereco,bairro,cidade,cep,uf,telefone,descricao) VALUES(?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO hospital(cnpjHospital,endereco,bairro,cidade,cep,uf,telefone,descricao) VALUES(?,?,?,?,?,?,?,?)";
         save(sql, objHospital.getCnpjHospital(), objHospital.getEndereco(), objHospital.getBairro(), objHospital.getCidade(), objHospital.getCep(), objHospital.getUf(), objHospital.getTelefone(), objHospital.getDescricao());
     }
     
     public void alterar(Hospital objHospital){
-        String sql = "UPDATE HOSPITAL SET cnpjHospital=?,endereco=?,bairro=?,cidade=?,cep=?,uf=?,telefone=?,descricao=?  WHERE codHospital=?";
+        String sql = "UPDATE hospital SET cnpjHospital=?,endereco=?,bairro=?,cidade=?,cep=?,uf=?,telefone=?,descricao=?  WHERE codHospital=?";
         save(sql, objHospital.getCnpjHospital(), objHospital.getEndereco(), objHospital.getBairro(), objHospital.getCidade(), objHospital.getCep(), objHospital.getUf(), objHospital.getTelefone(), objHospital.getDescricao(), objHospital.getCodHospital());
      }
      
     public void excluir(Hospital objHospital){
-        String sql="DELETE FROM HOSPITAL WHERE codHospital=?";
+        String sql="DELETE FROM hospital WHERE codHospital=?";
         save(sql, objHospital.getCodHospital());
     } 
     
@@ -53,12 +53,12 @@ public class HospitalDAO extends GenericoDAO<Hospital>{
     }
     
     public List<Hospital> buscarTodosHospitais(){
-        String sql = "SELECT * FROM HOSPITAL";
+        String sql = "SELECT * FROM hospital";
         return buscarTodos(sql, new CargoRowMapper());
     }
     
     public Hospital buscarHospitalPorId(int id){
-        String sql ="SELECT * FROM HOSPITAL WHERE codHospital=?";
+        String sql ="SELECT * FROM hospital WHERE codHospital=?";
         return buscarPorId(sql, new CargoRowMapper(),id);
     }
 }

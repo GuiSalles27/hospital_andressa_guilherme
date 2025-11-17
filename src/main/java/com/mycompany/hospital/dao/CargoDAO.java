@@ -8,17 +8,17 @@ import java.util.List;
 public class CargoDAO extends GenericoDAO<Cargo>{
     
     public void salvar(Cargo objCargo){
-        String sql = "INSERT INTO CARGO(nomeCargo,salarioInicial,descricao,bonificacao) VALUES(?,?,?,?)";
+        String sql = "INSERT INTO cargo(nomeCargo,salarioInicial,descricao,bonificacao) VALUES(?,?,?,?)";
         save(sql, objCargo.getNomeCargo(), objCargo.getSalarioInicial(), objCargo.getDescricao(), objCargo.getBonificacao());
     }
     
     public void alterar(Cargo objCargo){
-        String sql = "UPDATE CARGO SET nomeCargo=?,salarioInicial=?,descricao=?,bonificacao=?  WHERE codCargo=?";
+        String sql = "UPDATE cargo SET nomeCargo=?,salarioInicial=?,descricao=?,bonificacao=?  WHERE codCargo=?";
         save(sql,  objCargo.getNomeCargo(), objCargo.getSalarioInicial(), objCargo.getDescricao(), objCargo.getBonificacao(), objCargo.getCodCargo());
      }
      
     public void excluir(Cargo objCargo){
-        String sql="DELETE FROM CARGO WHERE codCargo=?";
+        String sql="DELETE FROM cargo WHERE codCargo=?";
         save(sql, objCargo.getCodCargo());
     } 
     
@@ -36,18 +36,18 @@ public class CargoDAO extends GenericoDAO<Cargo>{
     }
     
     public List<Cargo> buscarTodosCargos(){
-        String sql = "SELECT * FROM CARGO";
+        String sql = "SELECT * FROM cargo";
         return buscarTodos(sql, new CargoRowMapper());
     }
     
     public Cargo buscarCargoPorId(int id){
-        String sql ="SELECT * FROM CARGO WHERE codCargo=?";
+        String sql ="SELECT * FROM cargo WHERE codCargo=?";
         return buscarPorId(sql, new CargoRowMapper(),id);
     }
 
     // 🔹 Novo método para buscar cargos por faixa salarial
     public List<Cargo> buscarPorFaixaSalarial(Double salarioMin, Double salarioMax) {
-        String sql = "SELECT * FROM CARGO WHERE salarioInicial BETWEEN ? AND ?";
+        String sql = "SELECT * FROM cargo WHERE salarioInicial BETWEEN ? AND ?";
         return buscarPorParametros(sql, new CargoRowMapper(), salarioMin, salarioMax);
     }
 }

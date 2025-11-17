@@ -10,20 +10,20 @@ import java.util.stream.Collectors;
 public class ExameDAO extends GenericoDAO<Exame> {
 
     public void salvar(Exame objExame) {
-        String sql = "INSERT INTO EXAME(tipoExame,valor,resultado,pacienteExame,funcionarioExame) VALUES(?,?,?,?,?)";
+        String sql = "INSERT INTO exame(tipoExame,valor,resultado,pacienteExame,funcionarioExame) VALUES(?,?,?,?,?)";
         save(sql, objExame.getTipoExame(), objExame.getValor(), objExame.getResultado(),
              objExame.getPacienteExame().getCodPaciente(), objExame.getFuncionarioExame().getCodFunc());
     }
 
     public void alterar(Exame objExame) {
-        String sql = "UPDATE EXAME SET tipoExame=?, valor=?,resultado=?, pacienteExame=?,funcionarioExame=? WHERE codExame=?";
+        String sql = "UPDATE exame SET tipoExame=?, valor=?,resultado=?, pacienteExame=?,funcionarioExame=? WHERE codExame=?";
         save(sql, objExame.getTipoExame(), objExame.getValor(), objExame.getResultado(),
              objExame.getPacienteExame().getCodPaciente(), objExame.getFuncionarioExame().getCodFunc(),
              objExame.getCodExame());
     }
 
     public void excluir(Exame objExame) {
-        String sql = "DELETE FROM EXAME WHERE codExame=?";
+        String sql = "DELETE FROM exame WHERE codExame=?";
         save(sql, objExame.getCodExame());
     }
 
@@ -47,12 +47,12 @@ public class ExameDAO extends GenericoDAO<Exame> {
     }
 
     public List<Exame> buscarTodosExame() {
-        String sql = "SELECT * FROM EXAME";
+        String sql = "SELECT * FROM exame";
         return buscarTodos(sql, new ExameRowMapper());
     }
 
     public Exame buscarExamePorId(int id) {
-        String sql = "SELECT * FROM EXAME WHERE codExame=?";
+        String sql = "SELECT * FROM exame WHERE codExame=?";
         return buscarPorId(sql, new ExameRowMapper(), id);
     }
 
@@ -66,7 +66,7 @@ public class ExameDAO extends GenericoDAO<Exame> {
                 .map(c -> "?")
                 .collect(Collectors.joining(","));
 
-        String sql = "SELECT * FROM EXAME WHERE pacienteExame IN (" + placeholders + ")";
+        String sql = "SELECT * FROM exame WHERE pacienteExame IN (" + placeholders + ")";
 
         return buscarPorParametros(sql, new ExameRowMapper(), codPacientes.toArray());
     }

@@ -18,7 +18,7 @@ public class ConsultaDAO extends GenericoDAO<Consulta> {
             throw new IllegalArgumentException("Paciente e Funcionário não podem ser nulos ao salvar consulta.");
         }
 
-        String sql = "INSERT INTO CONSULTA (DIAGNOSTICO, DATACONSULTA, pacienteConsulta, funcionarioConsulta) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO consulta (diagnostico, dataConsulta, pacienteConsulta, funcionarioConsulta) VALUES (?, ?, ?, ?)";
         save(sql,
              objConsulta.getDiagnostico(),
              objConsulta.getDataConsulta(),
@@ -31,7 +31,7 @@ public class ConsultaDAO extends GenericoDAO<Consulta> {
             throw new IllegalArgumentException("Paciente e Funcionário não podem ser nulos ao alterar consulta.");
         }
 
-        String sql = "UPDATE CONSULTA SET DIAGNOSTICO = ?, DATACONSULTA = ?, pacienteConsulta = ?, funcionarioConsulta = ? WHERE CODCONSULTA = ?";
+        String sql = "UPDATE consulta SET diagnostico = ?, dataConsulta = ?, pacienteConsulta = ?, funcionarioConsulta = ? WHERE codConsulta = ?";
         save(sql,
              objConsulta.getDiagnostico(),
              objConsulta.getDataConsulta(),
@@ -41,18 +41,18 @@ public class ConsultaDAO extends GenericoDAO<Consulta> {
     }
 
     public void excluir(Consulta objConsulta) {
-        String sql = "DELETE FROM CONSULTA WHERE CODCONSULTA = ?";
+        String sql = "DELETE FROM consulta WHERE CODconsulta = ?";
         save(sql, objConsulta.getCodConsulta());
     }
 
     public List<Consulta> buscarTodasConsultas() {
-    String sql = "SELECT CODCONSULTA, DIAGNOSTICO, DATACONSULTA, pacienteConsulta, funcionarioConsulta FROM CONSULTA";
+    String sql = "SELECT codConsulta, diagnostico, dataConsulta, pacienteConsulta, funcionarioConsulta FROM consulta";
     return buscarTodos(sql, new ConsultaRowMapper());
 }
 
 
     public Consulta buscarConsultaPorId(int id) {
-        String sql = "SELECT * FROM CONSULTA WHERE CODCONSULTA = ?";
+        String sql = "SELECT * FROM consulta WHERE codConsulta = ?";
         return buscarPorId(sql, new ConsultaRowMapper(), id);
     }
 
@@ -65,9 +65,9 @@ public class ConsultaDAO extends GenericoDAO<Consulta> {
         public Consulta mapRow(ResultSet rs) throws SQLException {
             Consulta objConsulta = new Consulta();
 
-            objConsulta.setCodConsulta(rs.getInt("CODCONSULTA"));
-            objConsulta.setDiagnostico(rs.getString("DIAGNOSTICO"));
-            objConsulta.setDataConsulta(converte.converteCalendario(rs.getDate("DATACONSULTA")));
+            objConsulta.setCodConsulta(rs.getInt("codConsulta"));
+            objConsulta.setDiagnostico(rs.getString("diagnostico"));
+            objConsulta.setDataConsulta(converte.converteCalendario(rs.getDate("dataConsulta")));
 
             Paciente paciente = objpacienteDao.buscarPacientePorId(rs.getInt("pacienteConsulta"));
             Funcionario funcionario = objfuncionarioDao.buscarFuncionarioPorId(rs.getInt("funcionarioConsulta"));

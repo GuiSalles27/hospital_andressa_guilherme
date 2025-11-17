@@ -16,17 +16,17 @@ import java.util.List;
 public class AmbulatorioDAO extends GenericoDAO<Ambulatorio>{
     
     public void salvar(Ambulatorio objAmbulatorio){
-        String sql = "INSERT INTO AMBULATORIO(horarioAtendimento,quantAmbulancias,hospitalAmbulatorio) VALUES(?,?,?)";
+        String sql = "INSERT INTO ambulatorio(horarioAtendimento,quantAmbulancias,hospitalAmbulatorio) VALUES(?,?,?)";
         save(sql, objAmbulatorio.getHorarioAtendimento(), objAmbulatorio.getQuantAmbulancias(),objAmbulatorio.getHospitalAmbulatorio().getCodHospital());
     }
     
     public void alterar(Ambulatorio objAmbulatorio){
-        String sql = "UPDATE AMBULATORIO SET horarioAtendimento=?, quantAmbulancias=?, hospitalAmbulatorio=? WHERE codAmbulatorio=?";
+        String sql = "UPDATE ambulatorio SET horarioAtendimento=?, quantAmbulancias=?, hospitalAmbulatorio=? WHERE codAmbulatorio=?";
         save(sql, objAmbulatorio.getHorarioAtendimento(),objAmbulatorio.getQuantAmbulancias(), objAmbulatorio.getHospitalAmbulatorio().getCodHospital(), objAmbulatorio.getCodAmbulatorio());
      }
      
     public void excluir(Ambulatorio objAmbulatorio){
-        String sql="DELETE FROM AMBULATORIO WHERE codAmbulatorio=?";
+        String sql="DELETE FROM ambulatorio WHERE codAmbulatorio=?";
         save(sql, objAmbulatorio.getCodAmbulatorio());
     } 
     
@@ -50,17 +50,17 @@ public class AmbulatorioDAO extends GenericoDAO<Ambulatorio>{
     }
     
     public List<Ambulatorio> buscarTodosAmbulatorio(){
-        String sql = "SELECT * FROM AMBULATORIO";
+        String sql = "SELECT * FROM ambulatorio";
         return buscarTodos(sql, new AmbulatorioRowMapper());
     }
     
     public Ambulatorio buscarAmbulatorioPorId(int id){
-        String sql ="SELECT * FROM AMBULATORIO WHERE codAmbulatorio=?";
+        String sql ="SELECT * FROM ambulatorio WHERE codAmbulatorio=?";
         return buscarPorId(sql, new AmbulatorioRowMapper(),id);
     }
     
     public List<Ambulatorio> buscarPorHospital(int codHospital) {
-    String sql = "SELECT * FROM AMBULATORIO WHERE hospitalAmbulatorio=?";
+    String sql = "SELECT * FROM ambulatorio WHERE hospitalAmbulatorio=?";
     return buscarTodos(sql, new AmbulatorioRowMapper(), codHospital);
 }
     

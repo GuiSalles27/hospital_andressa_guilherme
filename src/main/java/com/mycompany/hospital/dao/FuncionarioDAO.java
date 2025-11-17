@@ -19,17 +19,17 @@ import java.util.List;
 public class FuncionarioDAO extends GenericoDAO<Funcionario>{
     
     public void salvar(Funcionario objFuncionario){
-        String sql = "INSERT INTO FUNCIONARIO(NOMEFUNC,CPF,RG,NUMREGISTRO,DATAADMISSAO,HORARIOTRABALHO,cargoFuncionario,hospitalFuncionario) VALUES(?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO funcionario(nomeFunc,cpf,rg,numRegistro,dataAdmissao,horarioTrabalho,cargoFuncionario,hospitalFuncionario) VALUES(?,?,?,?,?,?,?,?)";
         save(sql, objFuncionario.getNomeFunc(), objFuncionario.getCpf(), objFuncionario.getRg(), objFuncionario.getNumRegistro(), objFuncionario.getDataAdmissao(), objFuncionario.getHorarioTrabalho(), objFuncionario.getCargoFuncionario().getCodCargo(), objFuncionario.getHospitalFuncionario().getCodHospital());
     }
     
     public void alterar(Funcionario objFuncionario){
-        String sql = "UPDATE FUNCIONARIO SET NOMEFUNC=?, CPF=?, RG=?, NUMREGISTRO=?, DATAADMISSAO=?, HORARIOTRABALHO=?, cargoFuncionario=?, hospitalFuncionario=? WHERE CODFUNC=?";
+        String sql = "UPDATE funcionario SET nomeFunc=?, cpf=?, rg=?, numRegistro=?, dataAdmissao=?, horarioTrabalho=?, cargoFuncionario=?, hospitalFuncionario=? WHERE codFunc=?";
         save(sql, objFuncionario.getNomeFunc(), objFuncionario.getCpf(), objFuncionario.getRg(), objFuncionario.getNumRegistro(), objFuncionario.getDataAdmissao(), objFuncionario.getHorarioTrabalho(), objFuncionario.getCargoFuncionario().getCodCargo(), objFuncionario.getHospitalFuncionario().getCodHospital(), objFuncionario.getCodFunc());
      }
      
     public void excluir(Funcionario objFuncionario){
-        String sql="DELETE FROM FUNCIONARIO WHERE CODFUNC=?";
+        String sql="DELETE FROM funcionario WHERE codFunc=?";
         save(sql, objFuncionario.getCodFunc());
     } 
     

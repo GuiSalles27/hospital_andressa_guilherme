@@ -11,7 +11,7 @@ import java.util.List;
 public class PacienteDAO extends GenericoDAO<Paciente> {
 
     public void salvar(Paciente objPaciente) {
-        String sql = "INSERT INTO PACIENTE(nomePaciente,cpf,dataNascimento,filiacao,rg,endereco,bairro,cidade,cep,uf,telefone,planoPaciente) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO paciente(nomePaciente,cpf,dataNascimento,filiacao,rg,endereco,bairro,cidade,cep,uf,telefone,planoPaciente) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
         save(sql,
                 objPaciente.getNomePaciente(),
                 objPaciente.getCpf(),
@@ -28,7 +28,7 @@ public class PacienteDAO extends GenericoDAO<Paciente> {
     }
 
     public void alterar(Paciente objPaciente) {
-        String sql = "UPDATE PACIENTE SET nomePaciente=?, cpf=?, dataNascimento=?, filiacao=?, rg=?, endereco=?, bairro=?, cidade=?, cep=?, uf=?, telefone=?, planoPaciente=? WHERE codPaciente=?";
+        String sql = "UPDATE paciente SET nomePaciente=?, cpf=?, dataNascimento=?, filiacao=?, rg=?, endereco=?, bairro=?, cidade=?, cep=?, uf=?, telefone=?, planoPaciente=? WHERE codPaciente=?";
         save(sql,
                 objPaciente.getNomePaciente(),
                 objPaciente.getCpf(),
@@ -46,7 +46,7 @@ public class PacienteDAO extends GenericoDAO<Paciente> {
     }
 
     public void excluir(Paciente objPaciente) {
-        String sql = "DELETE FROM PACIENTE WHERE codPaciente=?";
+        String sql = "DELETE FROM paciente WHERE codPaciente=?";
         save(sql, objPaciente.getCodPaciente());
     }
 
@@ -84,15 +84,15 @@ public class PacienteDAO extends GenericoDAO<Paciente> {
     // Agora sempre faz JOIN para trazer informações do plano
     public List<Paciente> buscarTodosPaciente() {
         String sql = "SELECT p.*, pl.codPlano, pl.nomePlano, pl.tipoPlano, pl.valorPlano " +
-                     "FROM PACIENTE p " +
-                     "LEFT JOIN PLANO pl ON p.planoPaciente = pl.codPlano";
+                     "FROM paciente p " +
+                     "LEFT JOIN plano pl ON p.planoPaciente = pl.codPlano";
         return buscarTodos(sql, new PacienteRowMapper());
     }
 
     public Paciente buscarPacientePorId(int id) {
         String sql = "SELECT p.*, pl.codPlano, pl.nomePlano, pl.tipoPlano, pl.valorPlano " +
-                     "FROM PACIENTE p " +
-                     "LEFT JOIN PLANO pl ON p.planoPaciente = pl.codPlano " +
+                     "FROM paciente p " +
+                     "LEFT JOIN plano pl ON p.planoPaciente = pl.codPlano " +
                      "WHERE p.codPaciente=?";
         return buscarPorId(sql, new PacienteRowMapper(), id);
     }
@@ -100,8 +100,8 @@ public class PacienteDAO extends GenericoDAO<Paciente> {
     // Caso precise listar apenas pacientes com plano (INNER JOIN)
     public List<Paciente> buscarTodosPacientePlano() {
         String sql = "SELECT p.*, pl.codPlano, pl.nomePlano, pl.tipoPlano, pl.valorPlano " +
-                     "FROM PACIENTE p " +
-                     "INNER JOIN PLANO pl ON p.planoPaciente = pl.codPlano";
+                     "FROM paciente p " +
+                     "INNER JOIN plano pl ON p.planoPaciente = pl.codPlano";
         return buscarTodos(sql, new PacienteRowMapper());
     }
 }

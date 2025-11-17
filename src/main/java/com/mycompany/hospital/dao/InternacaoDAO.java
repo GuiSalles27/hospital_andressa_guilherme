@@ -12,14 +12,14 @@ import java.util.List;
 public class InternacaoDAO extends GenericoDAO<Internacao> {
 
     public void salvar(Internacao objInternacao) {
-        String sql = "INSERT INTO INTERNACAO(DATAHORA, SALA, DESCRICAO, pacienteInternacao, funcionarioInternacao) VALUES(?,?,?,?,?)";
+        String sql = "INSERT INTO internacao(dataHora, sala, descricao, pacienteInternacao, funcionarioInternacao) VALUES(?,?,?,?,?)";
         save(sql, objInternacao.getDataHora(), objInternacao.getSala(), objInternacao.getDescricao(),
                 objInternacao.getPacienteInternacao().getCodPaciente(),
                 objInternacao.getFuncionarioInternacao().getCodFunc());
     }
 
     public void alterar(Internacao objInternacao) {
-        String sql = "UPDATE INTERNACAO SET DATAHORA=?, SALA=?, DESCRICAO=?, pacienteInternacao=?, funcionarioInternacao=? WHERE CODINTERNACAO=?";
+        String sql = "UPDATE internacao SET dataHora=?, sala=?, descricao=?, pacienteInternacao=?, funcionarioInternacao=? WHERE codInternacao=?";
         save(sql, objInternacao.getDataHora(), objInternacao.getSala(), objInternacao.getDescricao(),
                 objInternacao.getPacienteInternacao().getCodPaciente(),
                 objInternacao.getFuncionarioInternacao().getCodFunc(),
@@ -27,7 +27,7 @@ public class InternacaoDAO extends GenericoDAO<Internacao> {
     }
 
     public void excluir(Internacao objInternacao) {
-        String sql = "DELETE FROM INTERNACAO WHERE CODINTERNACAO=?";
+        String sql = "DELETE FROM internacao WHERE codInternacao=?";
         save(sql, objInternacao.getCodInternacao());
     }
 
@@ -38,10 +38,10 @@ public class InternacaoDAO extends GenericoDAO<Internacao> {
         @Override
         public Internacao mapRow(ResultSet rs) throws SQLException {
             Internacao objInternacao = new Internacao();
-            objInternacao.setCodInternacao(rs.getInt("CODINTERNACAO"));
-            objInternacao.setDataHora(rs.getString("DATAHORA"));
-            objInternacao.setSala(rs.getInt("SALA"));
-            objInternacao.setDescricao(rs.getString("DESCRICAO"));
+            objInternacao.setCodInternacao(rs.getInt("codInternacao"));
+            objInternacao.setDataHora(rs.getString("dataHora"));
+            objInternacao.setSala(rs.getInt("sala"));
+            objInternacao.setDescricao(rs.getString("descricao"));
             objInternacao.setPacienteInternacao(objpacienteDao.buscarPacientePorId(rs.getInt("pacienteInternacao")));
             objInternacao.setFuncionarioInternacao(objfuncionarioDao.buscarFuncionarioPorId(rs.getInt("funcionarioInternacao")));
             return objInternacao;
@@ -49,12 +49,12 @@ public class InternacaoDAO extends GenericoDAO<Internacao> {
     }
 
     public List<Internacao> buscarTodasInternacoes() {
-        String sql = "SELECT * FROM INTERNACAO";
+        String sql = "SELECT * FROM internacao";
         return buscarTodos(sql, new InternacaoRowMapper());
     }
 
     public Internacao buscarInternacaoPorId(int id) {
-        String sql = "SELECT * FROM INTERNACAO WHERE CODINTERNACAO=?";
+        String sql = "SELECT * FROM internacao WHERE codInternacao=?";
         return buscarPorId(sql, new InternacaoRowMapper(), id);
     }
 
@@ -112,7 +112,7 @@ public class InternacaoDAO extends GenericoDAO<Internacao> {
     }
 
     public List<Internacao> buscarInternacoesPorSala(int sala) {
-        String sql = "SELECT * FROM INTERNACAO WHERE SALA=?";
+        String sql = "SELECT * FROM internacao WHERE sala=?";
         return buscarPorParametros(sql, new InternacaoRowMapper(), sala);
     }
 }
